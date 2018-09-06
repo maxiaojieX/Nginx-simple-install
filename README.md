@@ -48,3 +48,38 @@ http {
 >>从容关闭 kill -QUIT PID<br>
 >>启动 sbin/ -> ./nginx <br>
 >>或使用 sudo /usr/local/nginx/sbin/nginx 启动
+
+六、Nginx脚本<br>
+
+```
+if [ $1 == "stop" ]
+then
+	PIDFILE="/www/applog/nginx.pid"
+	PID=$(cat $PIDFILE)
+	if [ -f $PIDFILE ]; then
+		sudo kill -QUIT $PID
+		echo "NGINX STOP SUCCESS"
+	else
+        echo "PID FILE NOT FOUND"
+	fi
+elif [ $1 == "start" ]
+then
+    sudo /usr/local/nginx/sbin/nginx
+	echo "NGINX START SUCCESS"
+elif [ $1 == "restart" ]
+then
+	PIDFILE="/www/applog/nginx.pid"
+	PID=$(cat $PIDFILE)
+	if [ -f $PIDFILE ]; then
+		sudo kill -QUIT $PID
+		sudo /usr/local/nginx/sbin/nginx
+		echo "NGINX RESTART SUCCESS"
+	else
+        echo "PID FILE NOT FOUND"
+	fi
+else
+	echo "I don't know what you want me to do"
+fi
+
+```
+
